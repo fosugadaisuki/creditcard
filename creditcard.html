@@ -160,7 +160,7 @@ function handlePageClick(event) {
 }
 
 function navigateToPreviousPage() {
-    var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5'];
+    var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5','p6'];
     var currentIndex = pages.indexOf(currentPage);
     if (currentIndex > 0) {
         var previousPage = pages[currentIndex - 1];
@@ -169,7 +169,7 @@ function navigateToPreviousPage() {
 }
 
 function navigateToNextPage() {
-    var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5'];
+    var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5','p6'];
     var currentIndex = pages.indexOf(currentPage);
     if (currentIndex < pages.length - 1) {
         var nextPage = pages[currentIndex + 1];
@@ -212,7 +212,10 @@ function navigateToNextPage() {
         <source src="" type="audio/mpeg">
 
     </audio>
-    
+    <audio id="p6Audio">
+        <source src="" type="audio/mpeg">
+
+    </audio>
 
 
     
@@ -239,6 +242,10 @@ function navigateToNextPage() {
     <div id="p5" class="content hidden">
         <div id="top1"></div>
         <img src="comics_creditcard/creditcard_5.jpg" alt="Comic Strip 5" class="small-image" >
+    </div>
+    <div id="p6" class="content hidden">
+        <div id="top1"></div>
+        <img src="comics_creditcard/S__52617265.jpg" alt="Comic Strip 6" class="small-image" >
     </div>
 </div>
 </body>
