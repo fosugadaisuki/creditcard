@@ -95,88 +95,145 @@
         #top2{
             padding-top: 35%;
         }
+        #hintPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        #hintContent {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+        }
+        #hintContent div {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        #hintLeft {
+            border-right: 2px solid #ffffff;
+        }
+        #hintRight {
+            border-left: 2px solid #ffffff;
+        }
     </style>
     <script>
         var currentPage = 'home'; // Initialize current page
         var navigationEnabled = false;
-function start() {
-    var audio = document.getElementById('homeAudio');
-    audio.play();
-    hidePopup();
-}
+        
+        function start() {
+            var audio = document.getElementById('homeAudio');
+            audio.play();
+            hidePopup();
+        }
 
-function hidePopup() {
-    var overlay = document.getElementById('overlay');
-    overlay.classList.add('hidden'); 
-    setTimeout(function() {
+        function hidePopup() {
+            var overlay = document.getElementById('overlay');
+            overlay.classList.add('hidden'); 
+            setTimeout(function() {
                 navigationEnabled = true; // 0.5秒后启用导航功能
             }, 500);
-}
+        }
 
-function stopAllAudio() {
-    var audios = document.querySelectorAll('audio');
-    audios.forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
-    });
-}
+        function stopAllAudio() {
+            var audios = document.querySelectorAll('audio');
+            audios.forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+        }
 
-window.onload = function() {
-    var overlay = document.getElementById('overlay');
-    overlay.classList.remove('hidden');
-};
+        window.onload = function() {
+            var overlay = document.getElementById('overlay');
+            overlay.classList.remove('hidden');
+        };
 
-function navigateTo(pageId, audioId) {
-    // Hide all content sections
-    document.querySelectorAll('.content').forEach(section => {
-        section.classList.add('hidden');
-    });
+        function navigateTo(pageId, audioId) {
+            // Hide all content sections
+            document.querySelectorAll('.content').forEach(section => {
+                section.classList.add('hidden');
+            });
 
-    // Stop all audio
-    stopAllAudio();
+            // Stop all audio
+            stopAllAudio();
 
-    // Show the target content section
-    document.getElementById(pageId).classList.remove('hidden');
+            // Show the target content section
+            document.getElementById(pageId).classList.remove('hidden');
 
-    // Play the target audio
-    if (audioId) {
-        var audio = document.getElementById(audioId);
-        audio.play();
-    }
-    currentPage = pageId;
-}
-function handlePageClick(event) {
-    if (!navigationEnabled) return;
-    var windowWidth = window.innerWidth;
-    var clickX = event.clientX;
+            // Play the target audio
+            if (audioId) {
+                var audio = document.getElementById(audioId);
+                audio.play();
+            }
+            currentPage = pageId;
 
-    if (clickX < windowWidth / 2) {
-        // 点击左边，返回上一页
-        navigateToPreviousPage();
-    } else {
-        // 点击右边，跳转到下一页
-        navigateToNextPage();
-    }
-}
+            // Show hint page if navigating to p1
+            if (pageId === 'p1') {
+                showHintPage();
+            }
+        }
 
-function navigateToPreviousPage() {
-    var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5','p6'];
-    var currentIndex = pages.indexOf(currentPage);
-    if (currentIndex > 0) {
-        var previousPage = pages[currentIndex - 1];
-        navigateTo(previousPage, previousPage + 'Audio');
-    }
-}
+        function showHintPage() {
+            var hintPage = document.getElementById('hintPage');
+            hintPage.style.display = 'flex';
+        }
 
-function navigateToNextPage() {
-    var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5','p6'];
-    var currentIndex = pages.indexOf(currentPage);
-    if (currentIndex < pages.length - 1) {
-        var nextPage = pages[currentIndex + 1];
-        navigateTo(nextPage, nextPage + 'Audio');
-    }
-}
+        function hideHintPage() {
+            var hintPage = document.getElementById('hintPage');
+            hintPage.style.display = 'none';
+        }
 
+        function handlePageClick(event) {
+            if (!navigationEnabled) return;
+            
+            var windowWidth = window.innerWidth;
+            var clickX = event.clientX;
+
+            // If hint page is visible, hide it first
+            var hintPage = document.getElementById('hintPage');
+            if (hintPage.style.display === 'flex') {
+                hideHintPage();
+                return;
+            }
+
+            if (clickX < windowWidth / 2) {
+                // 点击左边，返回上一页
+                navigateToPreviousPage();
+            } else {
+                // 点击右边，跳转到下一页
+                navigateToNextPage();
+            }
+        }
+
+        function navigateToPreviousPage() {
+            var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5','p6'];
+            var currentIndex = pages.indexOf(currentPage);
+            if (currentIndex > 0) {
+                var previousPage = pages[currentIndex - 1];
+                navigateTo(previousPage, previousPage + 'Audio');
+            }
+        }
+
+        function navigateToNextPage() {
+            var pages = ['home', 'p1', 'p2', 'p3', 'p4', 'p5','p6'];
+            var currentIndex = pages.indexOf(currentPage);
+            if (currentIndex < pages.length - 1) {
+                var nextPage = pages[currentIndex + 1];
+                navigateTo(nextPage, nextPage + 'Audio');
+            }
+        }
     </script>
 </head>
 <body onclick="handlePageClick(event)">
@@ -247,6 +304,11 @@ function navigateToNextPage() {
         <div id="top1"></div>
         <img src="comics_creditcard/S__52617265.jpg" alt="Comic Strip 6" class="small-image" >
     </div>
-</div>
+    <div id="hintPage">
+        <div id="hintContent">
+            <div id="hintLeft">上一頁</div>
+            <div id="hintRight">下一頁</div>
+        </div>
+    </div>
 </body>
 </html>
